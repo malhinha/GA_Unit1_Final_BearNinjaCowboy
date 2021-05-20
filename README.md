@@ -9,4 +9,13 @@ The player will choose between playing a bear, a ninja or a cowboy. The computer
 - Cowboy beats Bear
 - Bear beats Ninja
 
+**Updates after chatting w Teo:**
+The game will be executed in rounds. First to 5 points wins the round (1 point for a win, -1 point for each loss).
+
+Second round, is until 10 points, with bonus for consecutive wins (& penalty for consecutive losses).
+
+Stretch goal: Third rounds introduces new hero?
+
+
+
 [This project was done for a software engineering final]
