@@ -36,6 +36,9 @@ let gamePlay = 'easy';
 let easyPlayIndex = 0;
 let medPlayIndex = 0;
 
+compScoreDisplay.innerHTML = computerScore;
+playerScoreDisplay.innerHTML = playerScore;
+
 
 /* ======================
 GAME FUNCTIONS
@@ -58,6 +61,16 @@ const gameReset = () => {
 
 const newGame = () => {
   console.log('ready to start');
+  // clears out game area & resets score
+  resultDiv.innerHTML = '';
+  gamePlayArea.innerHTML = '';
+  compScoreDisplay.innerHTML = computerScore;
+  playerScoreDisplay.innerHTML = playerScore;
+
+  // creates difficulty level buttons
+  createEasyButton();
+  createMediumButton();
+  createHardButton();
 }
 
 
@@ -167,6 +180,10 @@ const roundCheck = () => {
 }
 
 
+/* ======================
+ELEMENT CREATION FUNCTIONS
+=========================*/
+
 // creates new game start button
 
 const createStartButton = (label) => {
@@ -181,6 +198,55 @@ const createStartButton = (label) => {
     newGame();
   });
 }
+
+
+// creates easy difficulty level button
+
+const createEasyButton = () => {
+  const newEasyButton = document.createElement('button');
+  newEasyButton.id = "easy_level";
+  newEasyButton.innerHTML = 'Easy';
+  gamePlayArea.appendChild(newEasyButton);
+
+  const easyButton = document.getElementById('easy_level');
+
+  easyButton.addEventListener('click', (e) => {
+    gamePlay = 'easy';
+  });
+}
+
+// creates medium difficulty level button
+
+const createMediumButton = () => {
+  const newMediumButton = document.createElement('button');
+  newMediumButton.id = "medium_level";
+  newMediumButton.innerHTML = 'Medium';
+  gamePlayArea.appendChild(newMediumButton);
+
+  const mediumButton = document.getElementById('medium_level');
+
+  mediumButton.addEventListener('click', (e) => {
+    gamePlay = 'medium';
+  });
+}
+
+
+// creates hard difficulty level button
+
+const createHardButton = () => {
+  const newHardButton = document.createElement('button');
+  newHardButton.id = "hard_level";
+  newHardButton.innerHTML = 'Hard';
+  gamePlayArea.appendChild(newHardButton);
+
+  const hardButton = document.getElementById('hard_level');
+
+  hardButton.addEventListener('click', (e) => {
+    gamePlay = 'hard';
+  });
+}
+
+// creates Bear button
 
 
 /* ======================

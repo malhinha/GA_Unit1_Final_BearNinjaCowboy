@@ -1,3 +1,14 @@
 * {
   box-sizing: border-box;
 }
+
+body {
+  background: black;
+  height: 90vh;
+  font-family: sans-serif;
+  font: white;
+}
+
+div {
+  background: white;
+}
