@@ -16,6 +16,6 @@ Second round, is until 10 points, with bonus for consecutive wins (& penalty for
 
 Stretch goal: Third rounds introduces new hero?
 
-
+At game start, the player will have the option to choose a difficulty level: **easy**, **medium**, **hard**. **Easy** will mean that the computer has a basic pattern that dictates her choices for each battle. **Medium**, the pattern will be longer. **Hard**, a random logarithm will determine her choice. 
 
 [This project was done for a software engineering final]
