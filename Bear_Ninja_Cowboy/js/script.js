@@ -6,8 +6,8 @@ const ninjaBtn = document.getElementById('ninja');
 const bearBtn = document.getElementById('bear');
 const cowboyBtn = document.getElementById('cowboy');
 const resultDiv = document.getElementById('result');
-const compScoreDisplay = document.getElementById('computer_score');
-const playerScoreDisplay = document.getElementById('player_score');
+const compScoreDisplay = document.getElementById('computer-score');
+const playerScoreDisplay = document.getElementById('player-score');
 const gamePlayArea = document.getElementById('gamePlayArea');
 
 

@@ -5,40 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bear! Ninja! Cowboy!</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Open+Sans&display=swap" rel="stylesheet">
   <script defer src="js/script.js"></script>
 </head>
 
 <body>
-  <section id="scoreboard">
-  </section>
 
-  <section id="gameplay-area">
-  </section>
-
-  <section class="modal" id="match-result">
-  </section>
-
-  <section class="modal" id="intro-scene">
-  </section>
-
-  <!-- <div id='rules_setup'></div>
-
-  <div id='gamePlayArea'>
-    <div id='scoreboard'>
-      <div id='player'><h3>Player</h3><p id="player_score"></p></div>
-      <div id='computer'><h3>Computer</h3><p id="computer_score"></p></div>
+    <div id="header">
+      <div id="game-title"><h1>Ninja!    Bear!     Cowboy!</h1></div>
+      <!-- <div id="round-number">Level <span id="round"></span></div> -->
     </div>
-    <div id='matchArena'>
-      <button id='ninja'>NINJA</button>
-      <button id='bear'>BEAR</button>
-      <button id='cowboy'>COWBOY</button>
-    </div>
-  </div>
 
-  <div id='result'>
-    <div id='result_message'></div>
-    <button id='continue'>Get back to it!</button>
-  </div> -->
+    <div id="arena">
+      <div class="score-box">
+        <div class="score-style">Computer</div>
+        <div class="score-style" id="computer-score"></div>
+      </div>
+      <div id="battle-area">
+        Fight!
+      </div>
+      <div class="score-box">
+        <div class="score-style">Player</div>
+        <div class="score-style" id="player-score"></div>
+      </div>
+    </div>
+
+    <div id="panel">
+      <div class="battle-button" id='ninja'><img src="images/sprites/ninja.png" /></div>
+      <div class="battle-button" id='bear'><img src="images/sprites/bear.png" /></div>
+      <div class="battle-button" id='cowboy'><img src="images/sprites/cowboy.png" /></div>
+    </div>
 
 </body>
 </html>
