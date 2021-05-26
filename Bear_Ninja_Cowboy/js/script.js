@@ -5,7 +5,7 @@ CACHE DOM NODES
 const ninjaBtn = document.getElementById('ninja');
 const bearBtn = document.getElementById('bear');
 const cowboyBtn = document.getElementById('cowboy');
-const resultDiv = document.getElementById('result');
+const resultDiv = document.getElementById('resultDiv');
 const compScoreDisplay = document.getElementById('computer-score');
 const playerScoreDisplay = document.getElementById('player-score');
 const gamePlayArea = document.getElementById('gamePlayArea');
@@ -60,10 +60,7 @@ const gameReset = () => {
 // create the gameboard for a new game
 
 const newGame = () => {
-  console.log('ready to start');
   // clears out game area & resets score
-  resultDiv.innerHTML = '';
-  gamePlayArea.innerHTML = '';
   compScoreDisplay.innerHTML = computerScore;
   playerScoreDisplay.innerHTML = playerScore;
 
@@ -162,7 +159,7 @@ const updateScore = () => {
 const roundCheck = () => {
   if (computerScore === 5) {
     // wipe away game control buttons & global vars
-    gamePlayArea.innerHTML = 'The computer wins!';
+    resultDiv.innerHTML = 'The computer wins!';
     gameReset();
 
     // create 'play again' button
@@ -170,7 +167,7 @@ const roundCheck = () => {
 
   } else if (playerScore === 5) {
     // wipe away game control buttons
-    gamePlayArea.innerHTML = 'You beat the computer!';
+    resultDiv.innerHTML = 'You beat the computer!';
     gameReset();
 
     // create 'play again' button

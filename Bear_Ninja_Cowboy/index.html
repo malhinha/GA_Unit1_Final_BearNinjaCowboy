@@ -13,28 +13,40 @@
 <body>
 
     <div id="header">
-      <div id="game-title"><h1>Ninja!    Bear!     Cowboy!</h1></div>
-      <!-- <div id="round-number">Level <span id="round"></span></div> -->
+      <div class="game-title" id="ninja-title">Ninja!</div>
+      <div class="game-title" id="bear-title">Bear!</div>
+      <div class="game-title" id="cowboy-title">Cowboy!</div>
     </div>
 
-    <div id="arena">
+
+    <div id="arena-wrapper">
       <div class="score-box">
-        <div class="score-style">Computer</div>
-        <div class="score-style" id="computer-score"></div>
+        <div class="score-style">Level</div>
+        <div class="score-style" id="round-number"></div>
       </div>
-      <div id="battle-area">
-        Fight!
-      </div>
-      <div class="score-box">
-        <div class="score-style">Player</div>
-        <div class="score-style" id="player-score"></div>
+      <div id="arena">
+        <div class="score-box">
+          <div class="score-style">Computer</div>
+          <div class="score-style" id="computer-score"></div>
+        </div>
+        <div id="battle-area">
+          <div class="fighter-circle empty" id='computer'></div>
+          <div class="battle-results" id="resultDiv">Battle!</div>
+          <div class="fighter-circle empty" id='player'></div>
+        </div>
+        <div class="score-box">
+          <div class="score-style">Player</div>
+          <div class="score-style" id="player-score"></div>
+        </div>
       </div>
     </div>
 
     <div id="panel">
-      <div class="battle-button" id='ninja'><img src="images/sprites/ninja.png" /></div>
-      <div class="battle-button" id='bear'><img src="images/sprites/bear.png" /></div>
-      <div class="battle-button" id='cowboy'><img src="images/sprites/cowboy.png" /></div>
+      <div class="choose-warrior">Choose --></div>
+      <div class="battle-button" id='ninja'><a href="#"><img src="images/sprites/ninja.png" /></a></div>
+      <div class="battle-button" id='bear'><a href="#"><img src="images/sprites/bear.png" /></a></div>
+      <div class="battle-button" id='cowboy'><a href="#"><img src="images/sprites/cowboy.png" /></a></div>
+      <div class="choose-warrior"><-- Choose</div>
     </div>
 
 </body>
