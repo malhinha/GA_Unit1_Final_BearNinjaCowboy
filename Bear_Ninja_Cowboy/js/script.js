@@ -5,10 +5,24 @@ CACHE DOM NODES
 const ninjaBtn = document.getElementById('ninja');
 const bearBtn = document.getElementById('bear');
 const cowboyBtn = document.getElementById('cowboy');
-const resultDiv = document.getElementById('resultDiv');
 const compScoreDisplay = document.getElementById('computer-score');
 const playerScoreDisplay = document.getElementById('player-score');
+const levelDisplay = document.getElementById('level-number')
 const gamePlayArea = document.getElementById('gamePlayArea');
+const compCircle = document.querySelector('.fighter-circle#computer')
+const playerCircle = document.querySelector('.fighter-circle#player');
+const vsDiv = document.getElementById('vs');
+const easyBtn = document.getElementById('level-easy');
+const mediumBtn = document.getElementById('level-medium');
+const hardBtn = document.getElementById('level-hard');
+const levelModal = document.querySelector('.modal#level-select');
+const resultsModal = document.querySelector('.modal#match-end');
+const levelDiv = document.getElementById('level-box');
+const arenaDiv = document.getElementById('arena');
+const playerDiv = document.getElementById('panel');
+const resultDiv = document.getElementById('resultDiv');
+const resultComp = document.getElementById('computer-result');
+const resultPlayer = document.getElementById('player-result');
 
 
 /* ======================
@@ -23,6 +37,22 @@ const easyGamePlay = [
   0, 1, 0, 2, 0, 0
 ];
 
+const mediumGamePlay = [
+  2, 1, 0, 1, 1, 0, 0, 2, 2, 0, 1, 2
+];
+
+const sprites = [
+  'images/sprites/ninja.png',
+  'images/sprites/ninja-won.png',
+  'images/sprites/ninja-lost.png',
+  'images/sprites/bear.png',
+  'images/sprites/bear-won.png',
+  'images/sprites/bear-lost.png',
+  'images/sprites/cowboy.png',
+  'images/sprites/cowboy-won.png',
+  'images/sprites/cowboy-lost.png',
+];
+
 
 /* ======================
 GLOBAL VARS
@@ -30,14 +60,18 @@ GLOBAL VARS
 
 let computer = '';
 let player = '';
+let compChoice = null;
+let playerChoice = null;
 let computerScore = 0;
 let playerScore = 0;
-let gamePlay = 'easy';
+let gamePlay = '';
 let easyPlayIndex = 0;
-let medPlayIndex = 0;
+let mediumPlayIndex = 0;
+let level = 1;
 
 compScoreDisplay.innerHTML = computerScore;
 playerScoreDisplay.innerHTML = playerScore;
+levelDisplay.innerHTML = level;
 
 
 /* ======================
@@ -46,7 +80,7 @@ GAME FUNCTIONS
 
 // reset global variables for a new game
 
-const gameReset = () => {
+const gameReset = (newLevel) => {
   computer = '';
   player = '';
   computerScore = 0;
@@ -54,50 +88,41 @@ const gameReset = () => {
   gamePlay = '';
   easyPlayIndex = 0;
   medPlayIndex = 0;
+  level = newLevel;
 }
 
 
-// create the gameboard for a new game
+// toggles game board visibility
 
-const newGame = () => {
-  // clears out game area & resets score
-  compScoreDisplay.innerHTML = computerScore;
-  playerScoreDisplay.innerHTML = playerScore;
-
-  // creates difficulty level buttons
-  createEasyButton();
-  createMediumButton();
-  createHardButton();
+const toggleBoard = () => {
+  // expose game arena
+  levelDiv.classList.toggle('open');
+  arenaDiv.classList.toggle('open');
+  playerDiv.classList.toggle('open');
 }
 
+// set the arena with the warriors
 
-// see who wins match
+const setMatch = () => {
+  // have computer make their choice
+  compChoice = generateCompChoice();
 
-const matchResults = (playerChoice) => {
+  // move player sprite into arena
+  const playerSprite = document.createElement('img');
+  playerSprite.setAttribute('src', sprites[playerChoice*3]);
+  playerCircle.appendChild(playerSprite);
 
-  let compChoice = generateCompChoice();
+  // move computer sprite into the arena
+  const compSprite = document.createElement('img');
+  compSprite.setAttribute('src', sprites[compChoice*3]);
+  compCircle.appendChild(compSprite);
 
   // for debugging
-  player = choiceOptions[playerChoice];
-  computer = choiceOptions[compChoice];
-  console.log(`player: ${player}`);
-  console.log(`computer: ${computer}`);
+  console.log(`player: ${choiceOptions[playerChoice]}`);
+  console.log(`computer: ${choiceOptions[compChoice]}`);
   //
 
-  if ((playerChoice == 0 && compChoice == 1) ||
-  (playerChoice == 1 && compChoice == 2) ||
-  (playerChoice == 2 && compChoice == 0)) {
-    computerWins();
-  } else if ((playerChoice == 0 && compChoice == 2) ||
-  (playerChoice == 1 && compChoice == 0) ||
-  (playerChoice == 2 && compChoice == 1)){
-    playerWins();
-  } else {
-    console.log(`It's a draw :(`);
-    resultDiv.innerHTML = 'It\'s a draw :(';
-  }
-
-  roundCheck();
+  matchResults();
 }
 
 
@@ -123,6 +148,19 @@ const generateCompChoice = () => {
 
     return choice;
 
+  } else if (gamePlay == 'medium') {
+    //sets computer choice to current medium play index selection
+    let choice = mediumGamePlay[mediumPlayIndex];
+
+    //increments medium play index selection or sets it back to 0 if at end of array
+    if (mediumPlayIndex < mediumGamePlay.length-1) {
+      mediumPlayIndex++;
+    } else {
+      mediumPlayIndex = 0;
+    }
+
+    return choice;
+
   } else {
     console.log('ERROR: gamePlay not set');
   }
@@ -130,27 +168,82 @@ const generateCompChoice = () => {
 }
 
 
+// see who wins match
+
+const matchResults = () => {
+  console.log('matchResults: ', compChoice, playerChoice);
+
+  if ((playerChoice == 0 && compChoice == 1) ||
+  (playerChoice == 1 && compChoice == 2) ||
+  (playerChoice == 2 && compChoice == 0)) {
+    computerWins();
+  } else if ((playerChoice == 0 && compChoice == 2) ||
+  (playerChoice == 1 && compChoice == 0) ||
+  (playerChoice == 2 && compChoice == 1)){
+    playerWins();
+  } else {
+    console.log(`It's a draw :(`);
+    resultDiv.innerHTML = 'It\'s a draw :(';
+  }
+
+  // roundCheck();
+}
+
+
 // reflect who wins match/update points
 
 const computerWins = () => {
+  // increments/decrements scores
   computerScore++;
   playerScore--;
-  console.log(`The computer wins!`);
-  resultDiv.innerHTML = 'The computer wins!';
   updateScore();
+
+  // displays winner & loser sprites
+  matchEnd('computer');
 }
 
 const playerWins = () => {
+  // increments/decrements scores
   playerScore++;
   computerScore--;
+  updateScore();
+
+  // displays winner & loser sprites
   console.log(`You win!`);
   resultDiv.innerHTML = 'You win!';
-  updateScore();
+  matchEnd('player');
 }
+
+
+// display new point totals
 
 const updateScore = () => {
   compScoreDisplay.innerHTML = computerScore;
   playerScoreDisplay.innerHTML = playerScore;
+}
+
+
+// display for end of match
+
+const matchEnd = (winner) => {
+  // display results modal
+  resultsModal.classList.toggle('open');
+
+  // check who won & display right sprites
+  if (winner === 'computer') {
+    console.log(`The computer wins!`);
+    resultDiv.innerHTML = 'You lost :(';
+
+    const compResultsSprite = document.createElement('img');
+    compResultsSprite.setAttribute('src', sprites[(compChoice*3)+1]);
+    resultSprite.appendChild(compResultsSprite);
+  }
+  else if (winner === 'player') {
+    console.log('matchEnd: player winner needs logic');
+  }
+  else {
+    console.log('matchEnd: something broke');
+  }
 }
 
 
@@ -197,78 +290,75 @@ const createStartButton = (label) => {
 }
 
 
-// creates easy difficulty level button
-
-const createEasyButton = () => {
-  const newEasyButton = document.createElement('button');
-  newEasyButton.id = "easy_level";
-  newEasyButton.innerHTML = 'Easy';
-  gamePlayArea.appendChild(newEasyButton);
-
-  const easyButton = document.getElementById('easy_level');
-
-  easyButton.addEventListener('click', (e) => {
-    gamePlay = 'easy';
-  });
-}
-
-// creates medium difficulty level button
-
-const createMediumButton = () => {
-  const newMediumButton = document.createElement('button');
-  newMediumButton.id = "medium_level";
-  newMediumButton.innerHTML = 'Medium';
-  gamePlayArea.appendChild(newMediumButton);
-
-  const mediumButton = document.getElementById('medium_level');
-
-  mediumButton.addEventListener('click', (e) => {
-    gamePlay = 'medium';
-  });
-}
-
-
-// creates hard difficulty level button
-
-const createHardButton = () => {
-  const newHardButton = document.createElement('button');
-  newHardButton.id = "hard_level";
-  newHardButton.innerHTML = 'Hard';
-  gamePlayArea.appendChild(newHardButton);
-
-  const hardButton = document.getElementById('hard_level');
-
-  hardButton.addEventListener('click', (e) => {
-    gamePlay = 'hard';
-  });
-}
-
-// creates Bear button
-
 
 /* ======================
 EVENT LISTENERS
 =========================*/
 
-// start new game
-
-// startButton.addEventListener('click', (e) => {
-//   newGame();
-// });
-
-// have player make their choices
+// capture player choice
 
 ninjaBtn.addEventListener('click', (e) => {
-  matchResults(0);
+  playerChoice = 0;
+  setMatch();
 });
 
 bearBtn.addEventListener('click', (e) => {
-  matchResults(1);
+  playerChoice = 1;
+  setMatch();
 });
 
 cowboyBtn.addEventListener('click', (e) => {
-  matchResults(2);
+  playerChoice = 2;
+  setMatch();
 });
+
+
+// set difficuly level
+
+easyBtn.addEventListener('click', (e) => {
+  // set game play to easy & start game
+  gamePlay = 'easy';
+
+  // hide level select modal
+  levelModal.classList.toggle('open');
+
+  // expose game arena
+  toggleBoard();
+
+});
+
+mediumBtn.addEventListener('click', (e) => {
+  // set game play to easy & start game
+  gamePlay = 'medium';
+
+  // hide level select modal
+  levelModal.classList.toggle('open');
+
+  // expose game arena
+  toggleBoard();
+
+});
+
+hardBtn.addEventListener('click', (e) => {
+  // set game play to easy & start game
+  gamePlay = 'hard';
+
+  // hide level select modal
+  levelModal.classList.toggle('open');
+
+  // expose game arena
+  toggleBoard();
+
+});
+
+
+
+/* ======================
+START GAME
+=========================*/
+
+
+
 
 
 /* psuedo game flow code scratchsheet

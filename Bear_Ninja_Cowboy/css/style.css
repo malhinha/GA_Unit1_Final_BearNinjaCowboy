@@ -1,17 +1,47 @@
+/* override browser default */
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* use viewport-relative units to cover page fully */
+body {
+  height: 100vh;
+  width: 100vw;
+  background: rgb(188, 179, 159);
+  color: white;
+}
+
+/* include border and padding in element width and height */
 * {
   box-sizing: border-box;
 }
 
-body {
-  background: rgb(188, 179, 159);
-  color: white;
-  display: grid;
-  height: 100vh;
-  margin: 0;
-  grid-template-rows: 150px auto 200px;
-  row-gap: 5px;
+div.modal{
+  visibility: hidden;
+  width: 50vw;
+  max-width: 400px;
+  position: fixed;
+  top: 45%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  margin: 0 auto;
+  background-color: #f9d2c5;
+  border-radius: 4px;
+  padding: 30px;
+  box-shadow: 5px 2.5px 10px 0px rgba(0,0,0,0.2);
+  text-align: center;
 }
 
+div.modal.open{
+  visibility: visible;
+}
+
+div.modal#match-end {
+  max-width: 700px;
+}
 
 .score-box {
   display: flex;
@@ -20,14 +50,15 @@ body {
   background: white;
   color: black;
   padding: 15px;
-  margin: 50px 50px;
-  width: 130px;
+  margin: 0 50px;
+  width: 200px;
   border-radius: 20px;
   border-style: groove;
   border-width: 6px;
   border-color: rgb(114,93,74);
   box-shadow: 5px 2.5px 10px 0px rgba(0,0,0,0.2);
 }
+
 
 .score-style {
   font-family: 'Open Sans', sans-serif;
@@ -37,18 +68,11 @@ body {
   text-align: center;
 }
 
-div.score-style#computer-score, #player-score {
+div.score-style#computer-score, #player-score, #level-number {
   font-weight: bold;
   font-variant: normal;
   font-size: 40px;
 }
-
-.battle-results {
-  font-family: 'Bangers', cursive;
-  font-size: 4em;
-  text-shadow: 2px 2px 8px black;
-}
-
 
 .fighter-circle {
   display: flex;
@@ -85,9 +109,10 @@ div.score-style#computer-score, #player-score {
 
 .battle-button > a > img {
   height: 125px;
+  opacity: 1;
 }
 
-.choose-warrior {
+.choose-fighter {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -95,6 +120,15 @@ div.score-style#computer-score, #player-score {
   font-family: 'Bangers', cursive;
   font-size: 3em;
   text-shadow: 2px 2px 8px black;
+}
+
+#body-container {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  margin: 0;
+  grid-template-rows: 150px auto 200px;
+  row-gap: 5px;
 }
 
 #header {
@@ -114,11 +148,10 @@ div.score-style#computer-score, #player-score {
   margin: 0 20px;
 }
 
-
 #arena-wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   background-image: url("../images/backgrounds/game_background_1.png");
   background-position: center;
@@ -129,15 +162,23 @@ div.score-style#computer-score, #player-score {
   border-color: rgb(114,93,74);
 }
 
-#round-number {
-  font: white;
-  padding: 15px;
+#level-box {
+  visibility: hidden;
+}
+
+#level-box.open {
+  visibility: visible;
 }
 
 #arena {
+  visibility: hidden;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+#arena.open {
+  visibility: visible;
 }
 
 #battle-area {
@@ -147,12 +188,38 @@ div.score-style#computer-score, #player-score {
   width: 100%;
 }
 
-#panel {
+#player-wrapper {
   background: rgb(75, 132, 114);
+}
+
+#panel {
+  visibility: hidden;
   display: flex;
   justify-content: center;
   padding: 15px;
   border-style: groove;
   border-width: 10px 0 0 0;
   border-color: rgb(114,93,74);
+}
+
+#panel.open {
+  visibility: visible;
+}
+
+#match-end {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.results-box {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.battle-results {
+  font-family: 'Bangers', cursive;
+  font-size: 3em;
+  text-shadow: 2px 2px 8px black;
 }

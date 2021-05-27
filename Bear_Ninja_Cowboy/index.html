@@ -12,42 +12,70 @@
 
 <body>
 
+  <!-- full screen game board -->
+
+  <div id="body-container">
+
     <div id="header">
       <div class="game-title" id="ninja-title">Ninja!</div>
       <div class="game-title" id="bear-title">Bear!</div>
       <div class="game-title" id="cowboy-title">Cowboy!</div>
     </div>
 
-
     <div id="arena-wrapper">
-      <div class="score-box">
+      <div class="score-box" id="level-box">
         <div class="score-style">Level</div>
-        <div class="score-style" id="round-number"></div>
+        <div class="score-style" id="level-number"></div>
       </div>
       <div id="arena">
-        <div class="score-box">
+        <div class="score-box" id="computer-box">
           <div class="score-style">Computer</div>
           <div class="score-style" id="computer-score"></div>
         </div>
         <div id="battle-area">
           <div class="fighter-circle empty" id='computer'></div>
-          <div class="battle-results" id="resultDiv">Battle!</div>
+          <div class="battle-results" id="vs">vs</div>
           <div class="fighter-circle empty" id='player'></div>
         </div>
-        <div class="score-box">
+        <div class="score-box" id="player-box">
           <div class="score-style">Player</div>
           <div class="score-style" id="player-score"></div>
         </div>
       </div>
     </div>
 
-    <div id="panel">
-      <div class="choose-warrior">Choose --></div>
-      <div class="battle-button" id='ninja'><a href="#"><img src="images/sprites/ninja.png" /></a></div>
-      <div class="battle-button" id='bear'><a href="#"><img src="images/sprites/bear.png" /></a></div>
-      <div class="battle-button" id='cowboy'><a href="#"><img src="images/sprites/cowboy.png" /></a></div>
-      <div class="choose-warrior"><-- Choose</div>
+    <div id="player-wrapper">
+      <div id="panel">
+        <div class="choose-fighter">Choose --></div>
+        <div class="battle-button" id='ninja'><a href="#"><img src="images/sprites/ninja.png" /></a></div>
+        <div class="battle-button" id='bear'><a href="#"><img src="images/sprites/bear.png" /></a></div>
+        <div class="battle-button" id='cowboy'><a href="#"><img src="images/sprites/cowboy.png" /></a></div>
+        <div class="choose-fighter"><-- Choose</div>
+      </div>
     </div>
+
+  </div>
+
+
+  <!-- modal windows -->
+
+  <div class="modal open" id="level-select">
+    <button id="level-easy">Easy</button>
+    <button id="level-medium">Medium</button>
+    <button id="level-hard">Hard</button>
+  </div>
+
+  <div class="modal" id="match-end">
+    <div class="results-box">
+      <div id="computer-result"></div>
+      <div class="battle-results" id="resultDiv"></div>
+      <div id="player-result"></div>
+    </div>
+    <div>
+      <button id="continue">Continue</button>
+    </div>
+
+  </div>
 
 </body>
 </html>
