@@ -23,10 +23,10 @@
     </div>
 
     <div id="arena-wrapper">
-      <div class="score-box" id="level-box">
+      <!-- <div class="score-box" id="level-box">
         <div class="score-style">Level</div>
         <div class="score-style" id="level-number"></div>
-      </div>
+      </div> -->
       <div id="arena">
         <div class="score-box" id="computer-box">
           <div class="score-style">Computer</div>
@@ -46,49 +46,74 @@
 
     <div id="player-wrapper">
       <div id="panel">
-        <div class="choose-fighter">Choose --></div>
-        <div class="battle-button" id='ninja'><a href="#"><img src="images/sprites/ninja.png" /></a></div>
-        <div class="battle-button" id='bear'><a href="#"><img src="images/sprites/bear.png" /></a></div>
-        <div class="battle-button" id='cowboy'><a href="#"><img src="images/sprites/cowboy.png" /></a></div>
-        <div class="choose-fighter"><-- Choose</div>
+        <div id="level-box">Round <span id="level-number"></span></div>
+        <div id="battle-controls">
+          <div class="battle-button" id='ninja'><a href="#"><img src="images/sprites/ninja.png" /></a></div>
+          <div class="battle-button" id='bear'><a href="#"><img src="images/sprites/bear.png" /></a></div>
+          <div class="battle-button" id='cowboy'><a href="#"><img src="images/sprites/cowboy.png" /></a></div>
+        </div>
+        <div id="game-controls">
+          <!-- <button class="button" id="restart">Restart</button> -->
+          <button class="button" id="quit">Quit</button>
+        </div>
       </div>
     </div>
 
   </div>
 
 
-  <!-- modal windows -->
+  <!-- modal windows & trays -->
+
+  <div class="overlay" id="alert-overlay">
+    <div class="modal" id="alert">
+      <p>Are you sure you want to quit?</p>
+      <button id='yes'>Yes</button>
+      <button id='no'>No</button>
+    </div>
+  </div>
 
   <div class="modal open" id="level-select">
-    <button id="level-easy">Easy</button>
-    <button id="level-medium">Medium</button>
-    <button id="level-hard">Hard</button>
-    <button id="level-nuts">Ya nuts?</button>
+    <div id="game-instructions">
+      <h1>Get ready!</h1>
+      <p>Pick a fighter to battle the computer in a series a matches to win the round.
+
+      </p>
+      <p>But first, pick your difficulty level:</p>
+    </div>
+    <div id="level-buttons">
+      <button class="button" id="level-easy">Easy</button>
+      <button class="button" id="level-medium">Medium</button>
+      <button class="button" id="level-hard">Hard</button>
+      <button class="button" id="level-nuts">Ya nuts?</button>
+    </div>
   </div>
 
-  <div class="modal" id="match-end">
+  <div class="modal" id="level-intro">
+    <div id="level-intro-wrapper">
+    <h1></h1>
+    <p></p>
+    <button class="button" id="start">Let's go!</button>
+    </div>
+  </div>
+
+  <div class="tray" id="match-end">
     <div class="results-box">
-      <div id="computer-result"></div>
-      <div class="battle-results" id="resultDiv"></div>
+      <div class="battle-results" id="resultDiv">Winner!</div>
       <div id="player-result"></div>
+      <button class="button" id="continue">Continue</button>
     </div>
-    <div>
-      <button id="continue">Continue</button>
-    </div>
-
   </div>
 
-  <div class="modal" id="round-end">
-    <div class="results-box">
-      <div class="battle-results" id="level-result"></div>
-    </div>
-    <div id='player-winner'>
-      <button id="quit">Quit</button>
-      <button id="next-level">Next Level</button>
-    </div>
-    <div id='player-loser'>
-      <button id="new-game">Play again?</button>
-    </div>
+  <div class="modal" id="player-winner">
+    <div class="battle-results">Nice work!</div>
+    <div class="results-box" id="level-result">Round 1 over</div>
+    <button class="button" id="next-level">Want some more?</button>
+  </div>
+
+  <div class="modal" id="player-loser">
+    <div class="battle-results">Game over</div>
+    <div class="results-box" id="level-result">You got whupped</div>
+    <button class="button" id="replay">Try again?</button>
   </div>
 
 </body>

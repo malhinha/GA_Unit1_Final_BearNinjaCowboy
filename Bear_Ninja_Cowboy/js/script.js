@@ -12,6 +12,12 @@ const hardBtn = document.getElementById('level-hard');
 const nutsBtn = document.getElementById('level-nuts');
 const continueBtn = document.getElementById('continue');
 const nextLevelBtn = document.getElementById('next-level');
+const startLevelBtn = document.getElementById('start');
+const restartBtn = document.getElementById('restart');
+const quitBtn = document.getElementById('quit');
+const replayBtn = document.getElementById('replay');
+const yesBtn = document.getElementById('yes');
+const noBtn = document.getElementById('no');
 
 // displays
 const compScoreDisplay = document.getElementById('computer-score');
@@ -21,20 +27,24 @@ const gamePlayArea = document.getElementById('gamePlayArea');
 const compCircle = document.querySelector('.fighter-circle#computer')
 const playerCircle = document.querySelector('.fighter-circle#player');
 const vsDiv = document.getElementById('vs');
-const levelDiv = document.getElementById('level-box');
+// const levelDiv = document.getElementById('level-box');
 const arenaDiv = document.getElementById('arena');
 const playerDiv = document.getElementById('panel');
 const resultDiv = document.getElementById('resultDiv');
-const resultComp = document.getElementById('computer-result');
+// const resultComp = document.getElementById('computer-result');
 const resultPlayer = document.getElementById('player-result');
 const levelResultDiv = document.getElementById('level-result');
-const playerWinnerDiv = document.getElementById('player-winner');
-const playerLoserDiv = document.getElementById('player-loser');
+const levelIntroHeading = document.querySelector('.modal#level-intro h1');
+const levelIntroDesc = document.querySelector('.modal#level-intro p');
+const alertTitle = document.querySelector('.modal#alert p');
 
 // modals, trays
 const levelModal = document.querySelector('.modal#level-select');
-const resultsModal = document.querySelector('.modal#match-end');
-const levelEndModal = document.getElementById('round-end');
+const levelIntroModal = document.querySelector('.modal#level-intro');
+const resultsModal = document.querySelector('.tray#match-end');
+const playerWinnerDiv = document.getElementById('player-winner');
+const playerLoserDiv = document.getElementById('player-loser');
+const alertOverlay = document.getElementById('alert-overlay');
 
 
 /* ======================
@@ -69,6 +79,13 @@ const sprites = [
   'images/sprites/cowboy-lost.png',
 ];
 
+const levelDescriptions = [
+  'First to 5 points wins!',
+  'Now, first to 15 points wins!',
+  'First to 15 points wins but win two in a row & get a bonus point. Lose two in a row: 1 point penalty!',
+  '15 points is still the goal. Three wins in a row gets a double bonus (+2). Three losses in a row is a -3 point penalty!',
+];
+
 
 /* ======================
 GLOBAL VARS
@@ -86,7 +103,7 @@ let gamePlay = '';
 let easyPlayIndex = 0;
 let mediumPlayIndex = 0;
 let hardPlayIndex = 0;
-let level = 0;
+let level = 1;
 
 compScoreDisplay.innerHTML = computerScore;
 playerScoreDisplay.innerHTML = playerScore;
@@ -102,10 +119,10 @@ GAME FUNCTIONS
 const gameReset = () => {
   computer = '';
   player = '';
-  computerScore = 0;
-  playerScore = 0;
-  computerStreak = 0;
-  playerStreak = 0;
+
+  resetScores();
+  resetStreak();
+
   gamePlay = '';
   easyPlayIndex = 0;
   medPlayIndex = 0;
@@ -150,7 +167,7 @@ const resetStreak = () => {
 
 const toggleBoard = () => {
   // expose game arena
-  levelDiv.classList.toggle('open');
+  // levelDiv.classList.toggle('open');
   arenaDiv.classList.toggle('open');
   playerDiv.classList.toggle('open');
 }
@@ -163,11 +180,13 @@ const setMatch = () => {
   compChoice = generateCompChoice();
 
   // move player sprite into arena
+  playerCircle.classList.toggle('empty');
   const playerSprite = document.createElement('img');
   playerSprite.setAttribute('src', sprites[playerChoice*3]);
   playerCircle.appendChild(playerSprite);
 
   // move computer sprite into the arena
+  compCircle.classList.toggle('empty');
   const compSprite = document.createElement('img');
   compSprite.setAttribute('src', sprites[compChoice*3]);
   compCircle.appendChild(compSprite);
@@ -363,11 +382,6 @@ const matchEnd = (winner) => {
     console.log(`The computer wins!`);
     resultDiv.innerHTML = 'Loser! :(';
 
-    // display winning computer sprite
-    const resultCompSprite = document.createElement('img');
-    resultCompSprite.setAttribute('src', sprites[(compChoice*3)+1]);
-    resultComp.appendChild(resultCompSprite);
-
     // display losing player sprite
     const resultPlayerSprite = document.createElement('img');
     resultPlayerSprite.setAttribute('src', sprites[(playerChoice*3)+2]);
@@ -378,11 +392,6 @@ const matchEnd = (winner) => {
     console.log(`You win!`);
     resultDiv.innerHTML = 'Winner!';
 
-    // display losing computer sprite
-    const resultCompSprite = document.createElement('img');
-    resultCompSprite.setAttribute('src', sprites[(compChoice*3)+2]);
-    resultComp.appendChild(resultCompSprite);
-
     // display winning player sprite
     const resultPlayerSprite = document.createElement('img');
     resultPlayerSprite.setAttribute('src', sprites[(playerChoice*3)+1]);
@@ -392,16 +401,6 @@ const matchEnd = (winner) => {
   else if (winner === 'draw') {
     console.log(`It's a draw :(`);
     resultDiv.innerHTML = 'It\'s a draw';
-
-    // redisplay played computer sprite
-    const resultCompSprite = document.createElement('img');
-    resultCompSprite.setAttribute('src', sprites[compChoice*3]);
-    resultComp.appendChild(resultCompSprite);
-
-    // redisplay played player sprite
-    const resultPlayerSprite = document.createElement('img');
-    resultPlayerSprite.setAttribute('src', sprites[playerChoice*3]);
-    resultPlayer.appendChild(resultPlayerSprite);
 
   }
   else {
@@ -417,11 +416,11 @@ const roundCheck = () => {
   (computerScore === 15 && level >= 2)) {
     console.log(`computer wins the round`);
 
-    // displays end of round modal
-    levelEndModal.classList.toggle('open');
+    // hide game arena
+    toggleBoard();
 
     // display loser message
-    levelResultDiv.innerHTML = "Game over. You lost.";
+    levelResultDiv.innerHTML = "You got whupped.";
 
     // display "play again" button
     playerLoserDiv.classList.toggle('open');
@@ -430,17 +429,35 @@ const roundCheck = () => {
   (playerScore === 15 && level >= 2)) {
     console.log(`player wins the round`);
 
-    // displays end of round modal
-    levelEndModal.classList.toggle('open');
+    // hide game arena
+    toggleBoard();
 
     // display loser message
-    levelResultDiv.innerHTML = `Level ${level} complete. Ready for more?`;
+    levelResultDiv.innerHTML = `Round ${level} complete.`;
 
     // display quit & next level buttons
     playerWinnerDiv.classList.toggle('open');
 
   }
 }
+
+
+// display next level intro modal
+
+const displayLevelIntro = () => {
+  // update copy
+  levelIntroHeading.innerHTML = `Round ${level}`;
+
+  if (level <=4) {
+    levelIntroDesc.innerHTML = `${levelDescriptions[level-1]}`;
+  } else {
+    levelIntroDesc.innerHTML = `Keep on killing it onto infinity!`;
+  }
+
+  levelIntroModal.classList.toggle('open');
+}
+
+
 
 
 /* ======================
@@ -480,8 +497,8 @@ easyBtn.addEventListener('click', (e) => {
   // hide level select modal
   levelModal.classList.toggle('open');
 
-  // expose game arena
-  toggleBoard();
+  // show level intro model
+  displayLevelIntro();
 
 });
 
@@ -492,8 +509,8 @@ mediumBtn.addEventListener('click', (e) => {
   // hide level select modal
   levelModal.classList.toggle('open');
 
-  // expose game arena
-  toggleBoard();
+  // show level intro model
+  displayLevelIntro();
 
 });
 
@@ -504,8 +521,8 @@ hardBtn.addEventListener('click', (e) => {
   // hide level select modal
   levelModal.classList.toggle('open');
 
-  // expose game arena
-  toggleBoard();
+  // show level intro model
+  displayLevelIntro();
 
 });
 
@@ -516,8 +533,8 @@ nutsBtn.addEventListener('click', (e) => {
   // hide level select modal
   levelModal.classList.toggle('open');
 
-  // expose game arena
-  toggleBoard();
+  // show level intro model
+  displayLevelIntro();
 
 });
 
@@ -528,13 +545,16 @@ continueBtn.addEventListener('click', (e) => {
   // clear fighter circles
   document.querySelector('.fighter-circle#computer img').remove();
   document.querySelector('.fighter-circle#player img').remove();
+  compCircle.classList.toggle('empty');
+  playerCircle.classList.toggle('empty');
 
   // close match result modal
   resultsModal.classList.toggle('open');
 
-  // clear result circles
-  document.querySelector('#computer-result img').remove();
-  document.querySelector('#player-result img').remove();
+  // clear result circle & message
+  if (document.querySelector('#player-result img')) {
+    document.querySelector('#player-result img').remove();
+  }
   resultDiv.innerHTML = '';
 
   // check if someone player won/lost the round
@@ -543,11 +563,10 @@ continueBtn.addEventListener('click', (e) => {
 });
 
 
-// start next level
+// intro next level
 
 nextLevelBtn.addEventListener('click', (e) => {
   // close level end modal & reset div
-  levelEndModal.classList.toggle('open');
   playerWinnerDiv.classList.toggle('open');
   levelResultDiv.innerHTML = ``;
 
@@ -560,8 +579,62 @@ nextLevelBtn.addEventListener('click', (e) => {
   resetStreak();
   resetIndexes();
 
+  // open intro modal
+  displayLevelIntro();
 });
 
+
+// start next level
+
+startLevelBtn.addEventListener('click', (e) => {
+  // close intro modal
+  levelIntroModal.classList.toggle('open');
+
+  // expose game arena
+  toggleBoard();
+});
+
+
+// replay current lost level
+
+replayBtn.addEventListener('click', (e) => {
+  // close level end modal & reset div
+  playerLoserDiv.classList.toggle('open');
+  levelResultDiv.innerHTML = ``;
+
+  // reset game play indexes, streaks & indexes
+  resetScores();
+  resetStreak();
+  resetIndexes();
+
+  // open intro modal
+  displayLevelIntro();
+
+});
+
+
+// quit the game
+
+quitBtn.addEventListener('click', (e) => {
+  alertOverlay.classList.toggle('open');
+});
+
+
+// if yes, do the right thing
+
+yesBtn.addEventListener('click', (e) => {
+  gameReset();
+  toggleBoard();
+  alertOverlay.classList.toggle('open');
+  levelModal.classList.toggle('open');
+});
+
+
+// if no, close overlay
+
+noBtn.addEventListener('click', (e) => {
+  alertOverlay.classList.toggle('open');
+});
 
 
 /* ======================
