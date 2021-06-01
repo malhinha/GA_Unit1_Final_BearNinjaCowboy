@@ -18,6 +18,7 @@ const quitBtn = document.getElementById('quit');
 const replayBtn = document.getElementById('replay');
 const yesBtn = document.getElementById('yes');
 const noBtn = document.getElementById('no');
+const startGameBtn = document.getElementById('start-game');
 
 // displays
 const compScoreDisplay = document.getElementById('computer-score');
@@ -37,6 +38,9 @@ const levelResultDiv = document.getElementById('level-result');
 const levelIntroHeading = document.querySelector('.modal#level-intro h1');
 const levelIntroDesc = document.querySelector('.modal#level-intro p');
 const alertTitle = document.querySelector('.modal#alert p');
+const introNinjaTitle = document.getElementById('ninja-title-blind');
+const introBearTitle = document.getElementById('bear-title-blind');
+const introCowboyTitle = document.getElementById('cowboy-title-blind');
 
 // modals, trays
 const levelModal = document.querySelector('.modal#level-select');
@@ -45,6 +49,8 @@ const resultsModal = document.querySelector('.tray#match-end');
 const playerWinnerDiv = document.getElementById('player-winner');
 const playerLoserDiv = document.getElementById('player-loser');
 const alertOverlay = document.getElementById('alert-overlay');
+const topBlind = document.getElementById('top-blind');
+const bottomBlind = document.getElementById('bottom-blind');
 
 
 /* ======================
@@ -470,21 +476,32 @@ ELEMENT CREATION FUNCTIONS
 EVENT LISTENERS
 =========================*/
 
-// capture player choice
+// start game: display start button
 
-ninjaBtn.addEventListener('click', (e) => {
-  playerChoice = 0;
-  setMatch();
+introCowboyTitle.addEventListener('animationend', (e) => {
+  startGameBtn.classList.toggle('hide');
 });
 
-bearBtn.addEventListener('click', (e) => {
-  playerChoice = 1;
-  setMatch();
-});
 
-cowboyBtn.addEventListener('click', (e) => {
-  playerChoice = 2;
-  setMatch();
+// kick off game play
+
+startGameBtn.addEventListener('click', (e) => {
+  // hide the intro elements
+  startGameBtn.classList.toggle('hide');
+  introNinjaTitle.classList.toggle('open');
+  introBearTitle.classList.toggle('open');
+  introCowboyTitle.classList.toggle('open');
+
+  // animate blinds to open
+  topBlind.classList.toggle('animated');
+  topBlind.classList.toggle('slideOutUp');
+  bottomBlind.classList.toggle('animated');
+  bottomBlind.classList.toggle('slideOutDown');
+
+  // display select difficuly modal after blinds animation ends
+  topBlind.addEventListener('animationend', (e) => {
+    levelModal.classList.toggle('open');
+  });
 });
 
 
@@ -536,6 +553,24 @@ nutsBtn.addEventListener('click', (e) => {
   // show level intro model
   displayLevelIntro();
 
+});
+
+
+// capture player choice
+
+ninjaBtn.addEventListener('click', (e) => {
+  playerChoice = 0;
+  setMatch();
+});
+
+bearBtn.addEventListener('click', (e) => {
+  playerChoice = 1;
+  setMatch();
+});
+
+cowboyBtn.addEventListener('click', (e) => {
+  playerChoice = 2;
+  setMatch();
 });
 
 

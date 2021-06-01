@@ -17,9 +17,9 @@
   <div id="body-container">
 
     <div id="header">
-      <div class="game-title" id="ninja-title">Ninja!</div>
-      <div class="game-title" id="bear-title">Bear!</div>
-      <div class="game-title" id="cowboy-title">Cowboy!</div>
+      <div class="game-title open" id="ninja-title">Ninja!</div>
+      <div class="game-title open" id="bear-title">Bear!</div>
+      <div class="game-title open" id="cowboy-title">Cowboy!</div>
     </div>
 
     <div id="arena-wrapper">
@@ -63,6 +63,14 @@
 
 
   <!-- modal windows & trays -->
+  <div class="blind top open" id="top-blind">
+    <div class="game-title open animated zoomInDown" id="ninja-title-blind">Ninja!</div>
+    <div class="game-title open animated zoomInDown" id="bear-title-blind">Bear!</div>
+    <div class="game-title open animated zoomInDown" id="cowboy-title-blind">Cowboy!</div>
+  </div>
+  <div class="blind bottom open" id="bottom-blind">
+    <button class="hide" id="start-game">start</button>
+  </div>
 
   <div class="overlay" id="alert-overlay">
     <div class="modal" id="alert">
@@ -72,12 +80,16 @@
     </div>
   </div>
 
-  <div class="modal open" id="level-select">
+  <div class="modal" id="level-select">
     <div id="game-instructions">
       <h1>Get ready!</h1>
-      <p>Pick a fighter to battle the computer in a series a matches to win the round.
-
-      </p>
+      <p>Pick a fighter to battle the computer in a series a matches to win the round.</p>
+      <p>In case you need to know:</p>
+      <ul>
+        <li>Ninja beats cowboy</li>
+        <li>Bear beats ninja</li>
+        <li>Cowboy beats bear</li>
+      </ul>
       <p>But first, pick your difficulty level:</p>
     </div>
     <div id="level-buttons">
