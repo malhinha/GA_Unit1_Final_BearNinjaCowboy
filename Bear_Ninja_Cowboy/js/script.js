@@ -87,7 +87,7 @@ const sprites = [
 
 const levelDescriptions = [
   'First to 5 points wins!',
-  'Now, first to 15 points wins!',
+  'Now, first to 10 points wins!',
   'First to 15 points wins but win two in a row & get a bonus point. Lose two in a row: 1 point penalty!',
   '15 points is still the goal. Three wins in a row gets a double bonus (+2). Three losses in a row is a -3 point penalty!',
 ];
@@ -114,6 +114,11 @@ let level = 1;
 compScoreDisplay.innerHTML = computerScore;
 playerScoreDisplay.innerHTML = playerScore;
 levelDisplay.innerHTML = level;
+
+compScoreDisplay.classList.toggle('animate');
+compScoreDisplay.classList.toggle('flash');
+playerScoreDisplay.classList.toggle('animate');
+playerScoreDisplay.classList.toggle('flash');
 
 
 /* ======================
@@ -373,7 +378,20 @@ const updateScore = () => {
 // update score display
 
 const updateScoreDisplay = () => {
+  // remove flash animate classes - DOESN'T WORK
+  compScoreDisplay.classList.toggle('animate');
+  compScoreDisplay.classList.toggle('flash');
+  playerScoreDisplay.classList.toggle('animate');
+  playerScoreDisplay.classList.toggle('flash');
+
+  // flash & update computer score
+  compScoreDisplay.classList.toggle('animate');
+  compScoreDisplay.classList.toggle('flash');
   compScoreDisplay.innerHTML = computerScore;
+
+  // flash & update player score
+  playerScoreDisplay.classList.toggle('animate');
+  playerScoreDisplay.classList.toggle('flash');
   playerScoreDisplay.innerHTML = playerScore;
 }
 
@@ -419,7 +437,8 @@ const matchEnd = (winner) => {
 
 const roundCheck = () => {
   if ((computerScore === 5 && level === 1) ||
-  (computerScore === 15 && level >= 2)) {
+  (computerScore === 10 && level == 2)||
+  (computerScore === 15 && level >= 3)) {
     console.log(`computer wins the round`);
 
     // hide game arena
@@ -432,7 +451,8 @@ const roundCheck = () => {
     playerLoserDiv.classList.toggle('open');
 
   } else if ((playerScore === 5 && level === 1) ||
-  (playerScore === 15 && level >= 2)) {
+  (playerScore === 10 && level == 2) ||
+  (playerScore === 15 && level >= 3)) {
     console.log(`player wins the round`);
 
     // hide game arena
